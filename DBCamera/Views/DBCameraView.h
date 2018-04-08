@@ -118,6 +118,8 @@
  */
 - (void) defaultInterface;
 
+- (void) createGesture;
+
 /**
  *  Draw and show the focus layer
  *
@@ -149,11 +151,4 @@
  *  @param scale The scale value
  */
 - (void) pinchCameraViewWithScalNum:(CGFloat)scale;
-
-/**
- *  Updates the frame of view & resize preview layer accordingly
- *
- *  @param frame New frame
- */
-- (void) updateFrame:(CGRect)frame;
 @end

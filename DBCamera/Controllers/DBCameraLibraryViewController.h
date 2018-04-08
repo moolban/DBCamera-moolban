@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DBCameraDelegate.h"
 
-@class DBCameraSegueViewController, DBCameraConfiguration;
+@class DBCameraSegueViewController;
 
 /**
  *  DBCameraLibraryViewController
@@ -29,11 +29,6 @@
  *  Set the max resolution for the selected image
  */
 @property (nonatomic, assign) NSUInteger libraryMaxImageSize;
-
-/**
- *  Contains additional configuration for camera controllers
- */
-@property (nonatomic, strong) DBCameraConfiguration *cameraConfiguration;
 
 /**
  *  The init method with an DBCameraContainerDelegate object

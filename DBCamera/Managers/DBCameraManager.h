@@ -55,11 +55,6 @@
 @property (nonatomic, assign) AVCaptureWhiteBalanceMode whiteBalanceMode;
 
 /**
- *  The DBCamera camera orientation
- */
-@property (nonatomic, assign, readonly) AVCaptureDevicePosition cameraPosition;
-
-/**
  *  The DBCamera camera count
  */
 @property (nonatomic, assign, readonly) NSUInteger cameraCount;

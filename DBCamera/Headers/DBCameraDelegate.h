@@ -86,12 +86,14 @@
  *  @return The max scale value
  */
 - (CGFloat) cameraMaxScale;
+
+- (void) cameraGuide;
 @end
 
 /**
  *  DBCameraViewController delegate protocol
  */
-@protocol DBCameraViewControllerDelegate <NSObject>
+@protocol DBCameraViewControllerDelegate <NSObject> 
 @optional
 /**
  *  Tells the delegate when the image is ready to use
@@ -106,6 +108,8 @@
  *  Tells the delegate when the camera must be dismissed
  */
 - (void) dismissCamera:(id)cameraViewController;
+
+- (void) cameraGuide:(id)cameraViewController;
 @end
 
 /**

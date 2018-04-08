@@ -15,7 +15,6 @@
 #import "UIImage+TintColor.h"
 #import "UIImage+Bundle.h"
 #import "GrayscaleContrastFilter.h"
-#import "DBCameraConfiguration.h"
 
 #import <GPUImage/GPUImage.h>
 
@@ -42,7 +41,7 @@ static const CGSize kFilterCellSize = { 75, 90 };
 }
 
 @property (nonatomic, strong) UIView *navigationBar, *bottomBar;
-@property (nonatomic, strong, readwrite) UIButton *useButton, *retakeButton, *cropButton;
+@property (nonatomic, strong) UIButton *useButton, *retakeButton, *cropButton;
 @property (nonatomic, strong) DBCameraLoadingView *loadingView;
 @end
 
@@ -131,10 +130,6 @@ static const CGSize kFilterCellSize = { 75, 90 };
     
     if( self.cameraSegueConfigureBlock )
         self.cameraSegueConfigureBlock(self);
-    
-    if ( self.cameraConfiguration.configureProcessingController ) {
-        self.cameraConfiguration.configureProcessingController(self);
-    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -394,18 +389,6 @@ static const CGSize kFilterCellSize = { 75, 90 };
         [self setCropRect:cropRect];
         [self reset:YES];
     }
-}
-
-#pragma mark - DBPhotoProcessingControllerProtocol
-
-- (void) setFiltersBarVisible:(BOOL)filtersBarVisible {
-    
-    if ( filtersBarVisible == NO ) {
-        
-        [self.filtersView removeFromSuperview];
-        
-    }
-    
 }
 
 @end

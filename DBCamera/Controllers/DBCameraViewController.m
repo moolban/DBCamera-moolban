@@ -15,7 +15,6 @@
 #import "DBCameraLibraryViewController.h"
 #import "DBLibraryManager.h"
 #import "DBMotionManager.h"
-#import "DBCameraConfiguration.h"
 
 #import "UIImage+Crop.h"
 #import "DBCameraMacros.h"
@@ -64,7 +63,7 @@
 
     if ( self ) {
         _processingPhoto = NO;
-        _deviceOrientation = UIDeviceOrientationPortrait;
+        _deviceOrientation = UIDeviceOrientationLandscapeRight;
         if ( delegate )
             _delegate = delegate;
 
@@ -112,10 +111,6 @@
         [(DBCameraView *)camera cameraButton].enabled = [self.cameraManager hasMultipleCameras];
         [self.cameraManager hasMultipleCameras];
     }
-    
-    if ( self.cameraConfiguration.configureCameraController ) {
-        self.cameraConfiguration.configureCameraController(self);
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -133,12 +128,11 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ( self.customCamera == nil ) {
+    [self.navigationController setNavigationBarHidden:YES];
+    [UIApplication sharedApplication].statusBarHidden = YES;
+    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
+    if ( !self.customCamera )
         [self checkForLibraryImage];
-    } else {
-        DBCameraView *cameraView = (DBCameraView *)self.customCamera;
-        [cameraView updateFrame:self.view.frame];
-    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -153,12 +147,12 @@
     _cameraManager = nil;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeRight;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationLandscapeRight;
 }
 
 - (void) checkForLibraryImage
@@ -239,9 +233,10 @@
 
 - (void) rotationChanged:(UIDeviceOrientation) orientation
 {
-    if ( orientation != UIDeviceOrientationUnknown ||
-         orientation != UIDeviceOrientationFaceUp ||
-         orientation != UIDeviceOrientationFaceDown ) {
+    if ( orientation == UIDeviceOrientationPortrait ||
+         orientation == UIDeviceOrientationPortraitUpsideDown ||
+         orientation == UIDeviceOrientationLandscapeLeft ||
+        orientation == UIDeviceOrientationLandscapeRight) {
         _deviceOrientation = orientation;
     }
 }
@@ -335,7 +330,6 @@
         [segue enableGestures:YES];
         [segue setDelegate:self.delegate];
         [segue setCapturedImageMetadata:finalMetadata];
-        [segue setCameraConfiguration:self.cameraConfiguration];
         [segue setCameraSegueConfigureBlock:self.cameraSegueConfigureBlock];
 
         [self.navigationController pushViewController:segue animated:YES];
@@ -375,7 +369,6 @@
             [library setUseCameraSegue:self.useCameraSegue];
             [library setCameraSegueConfigureBlock:self.cameraSegueConfigureBlock];
             [library setLibraryMaxImageSize:self.libraryMaxImageSize];
-            [library setCameraConfiguration:self.cameraConfiguration];
             [self.containerDelegate switchFromController:self toController:library];
         }];
     } else {
@@ -449,25 +442,17 @@
     [self.cameraManager setCameraMaxScale:scaleNum];
 }
 
+- (void) cameraGuide{
+    if ( [self.delegate respondsToSelector:@selector(cameraGuide:)] )
+        [self.delegate cameraGuide:self];
+}
 #pragma mark - UIApplicationDidEnterBackgroundNotification
 
 - (void) applicationDidEnterBackground:(NSNotification *)notification
 {
-    id modalViewController = self.presentingViewController;
-    if ( modalViewController )
-        [self dismissCamera];
-}
-
-#pragma mark - DBCameraControllerProtocol
-
-- (void) setInitialCameraPosition:(AVCaptureDevicePosition)initialCameraPosition {
-    
-    if ( initialCameraPosition == self.cameraManager.cameraPosition || initialCameraPosition == AVCaptureDevicePositionUnspecified) {
-        return;
-    }
-    
-    [self switchCamera];
-    
+//    id modalViewController = self.presentingViewController;
+//    if ( modalViewController )
+//        [self dismissCamera];
 }
 
 @end

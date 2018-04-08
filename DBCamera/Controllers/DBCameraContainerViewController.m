@@ -23,36 +23,20 @@
 @synthesize tintColor = _tintColor;
 @synthesize selectedTintColor = _selectedTintColor;
 
-- (instancetype) initWithDelegate:(id<DBCameraViewControllerDelegate>)delegate
+- (id) initWithDelegate:(id<DBCameraViewControllerDelegate>)delegate
 {
     return [self initWithDelegate:delegate cameraSettingsBlock:nil];
 }
 
-- (instancetype) initWithDelegate:(id<DBCameraViewControllerDelegate>)delegate cameraSettingsBlock:(CameraSettingsBlock)block
+- (id) initWithDelegate:(id<DBCameraViewControllerDelegate>)delegate cameraSettingsBlock:(CameraSettingsBlock)block
 {
-    return [self initWithDelegate:delegate cameraConfiguration:nil cameraSettingsBlock:block];
-}
-
-- (instancetype) initWithDelegate:(id<DBCameraViewControllerDelegate>)delegate
-              cameraConfiguration:(DBCameraConfiguration *)cameraConfiguration
-{
-    return [self initWithDelegate:delegate cameraConfiguration:cameraConfiguration cameraSettingsBlock:nil];
-}
-
-- (instancetype) initWithDelegate:(id<DBCameraViewControllerDelegate>)delegate
-              cameraConfiguration:(DBCameraConfiguration *)cameraConfiguration
-              cameraSettingsBlock:(CameraSettingsBlock)block
-{
-    
     self = [super init];
     if ( self ) {
         _delegate = delegate;
         _settingsBlock = block;
-        _cameraConfiguration = cameraConfiguration;
     }
     
     return self;
-    
 }
 
 - (void) viewDidLoad
@@ -71,7 +55,7 @@
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
@@ -116,7 +100,6 @@
             [_defaultCameraViewController setTintColor:self.tintColor];
         if ( self.selectedTintColor )
             [_defaultCameraViewController setSelectedTintColor:self.selectedTintColor];
-        _defaultCameraViewController.cameraConfiguration = self.cameraConfiguration;
     }
     
     if ( !self.cameraViewController )
