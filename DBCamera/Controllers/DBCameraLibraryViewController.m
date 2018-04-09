@@ -355,7 +355,7 @@
                 metadata[@"DBCameraAssetURL"] = [[defaultRep url] absoluteString];
             }
 
-            UIImage *image = [UIImage imageForAsset:asset maxPixelSize:_libraryMaxImageSize];
+            UIImage *image = [UIImage imageForAsset:asset maxPixelSize:weakSelf.libraryMaxImageSize];
 //            UIImage *image = [self test:asset];
             
             if ( !weakSelf.useCameraSegue ) {
@@ -365,7 +365,7 @@
                 DBCameraSegueViewController *segue = [[DBCameraSegueViewController alloc] initWithImage:image thumb:[UIImage imageWithCGImage:[asset aspectRatioThumbnail]]];
                 [segue setTintColor:self.tintColor];
                 [segue setSelectedTintColor:self.selectedTintColor];
-                [segue setForceQuadCrop:_forceQuadCrop];
+                [segue setForceQuadCrop:weakSelf.forceQuadCrop];
                 [segue enableGestures:YES];
                 [segue setCapturedImageMetadata:metadata];
                 [segue setDelegate:weakSelf.delegate];
