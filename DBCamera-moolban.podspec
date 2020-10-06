@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                     DBCamera is a simple custom camera with AVFoundation, completely customizable.
                    DESC
-  s.homepage     = "https://github.com/rws08/DBCamera-moolban"
+  s.homepage     = "https://github.com/moolban/DBCamera-moolban"
   s.license      = "MIT"
   s.author             = { "Daniele Bogo" => "me@bogodaniele.com" }
   s.social_media_url   = "http://bogodaniele.com"
